@@ -19,7 +19,8 @@ class WaveClip extends CustomClipper<Path> {
 }
 
 class ClipPathBar extends StatelessWidget {
-  const ClipPathBar({super.key});
+  final String? title;
+  const ClipPathBar({super.key, this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +28,12 @@ class ClipPathBar extends StatelessWidget {
       clipper: WaveClip(),
       child: Container(
         height: 200,
+        alignment: Alignment.center,
         padding: const EdgeInsets.all(24),
-        alignment: AlignmentDirectional.center,
         color: const Color(0xFF58BDBD),
-        child: const Text(
-          "Store",
-          style: TextStyle(
+        child: Text(
+          '$title',
+          style: const TextStyle(
               fontWeight: FontWeight.bold, color: Colors.white, fontSize: 24),
         ),
       ),

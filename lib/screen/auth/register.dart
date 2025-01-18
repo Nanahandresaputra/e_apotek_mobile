@@ -58,7 +58,7 @@ class _RegisterState extends State<Register> {
                         width: 400,
                         label: 'Nama',
                         required: true,
-                        controller: _emailController,
+                        controller: _namaController,
                       ),
                       InputField(
                         width: 400,
