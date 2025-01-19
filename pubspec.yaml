@@ -64,6 +64,8 @@ flutter:
     - assets/img/medic.png
     - assets/img/vector-1.png
     - assets/img/logo.png
+    - assets/img/loading-medicine.gif
+    - assets/img/img-placeholder.jpg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

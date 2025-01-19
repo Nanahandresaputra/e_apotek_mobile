@@ -17,6 +17,7 @@ class _FooterState extends State<Footer> {
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.white60,
       backgroundColor: const Color(0xFF58BDBD),
+      elevation: 8,
       onTap: (value) {
         debugPrint('value--- $value');
         setState(() {
@@ -26,15 +27,15 @@ class _FooterState extends State<Footer> {
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          label: 'Home',
+          label: 'Beranda',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.shopping_cart),
-          label: 'Cart',
+          icon: Icon(Icons.add_box_rounded),
+          label: 'Tambah',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
-          label: 'Profile',
+          label: 'Akun',
         ),
       ],
     );
