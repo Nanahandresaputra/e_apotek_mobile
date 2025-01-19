@@ -2,7 +2,6 @@ import 'package:e_apotek/widget/card_medicine.dart';
 import 'package:e_apotek/widget/clip_path_bar.dart';
 import 'package:e_apotek/widget/footer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class ListProduct extends StatelessWidget {
   const ListProduct({super.key});
@@ -18,15 +17,19 @@ class ListProduct extends StatelessWidget {
             )),
         bottomNavigationBar: const Footer(),
         body: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+          padding: const EdgeInsets.fromLTRB(6, 0, 6, 12),
           child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.75,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10),
+                  crossAxisCount: 3,
+                  childAspectRatio: 0.58,
+                  mainAxisSpacing: 8,
+                  crossAxisSpacing: 2),
               itemBuilder: (context, index) {
-                return const CardMedicine();
+                return CardMedicine(
+                  tag: index,
+                  title: 'Albendazol tablet/ tablet kunyah 400 mg',
+                  harga: 30000,
+                );
               }),
         ),
       ),

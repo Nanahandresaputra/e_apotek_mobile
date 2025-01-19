@@ -1,20 +1,32 @@
 import 'package:flutter/material.dart';
 
 class CardMedicine extends StatelessWidget {
-  const CardMedicine({super.key});
+  final String? title;
+  final String? thumbnail;
+  final int? harga;
+  final int? tag;
+  final Function()? onTap;
+
+  const CardMedicine(
+      {super.key,
+      this.tag,
+      this.title,
+      this.thumbnail,
+      this.harga,
+      this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
-      child: Container(
+      onTap: onTap,
+      child: SizedBox(
         child: Card(
           elevation: 5,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Hero(
-                tag: 0,
+                tag: '$tag',
                 child: ClipRRect(
                   borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(8),
@@ -22,26 +34,30 @@ class CardMedicine extends StatelessWidget {
                   child: Image.asset(
                     'assets/img/img-placeholder.jpg',
                     fit: BoxFit.cover,
-                    height: 140,
+                    height: 120,
                   ),
                 ),
               ),
               const SizedBox(
                 height: 8,
               ),
-              const Padding(
-                padding: EdgeInsets.all(7),
+              Padding(
+                padding: const EdgeInsets.all(7),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                      'Title',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    SizedBox(
+                      child: Text(
+                        '$title',
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            overflow: TextOverflow.ellipsis),
+                        maxLines: 2,
+                      ),
                     ),
                     Text(
-                      'Rp. 30.000 ',
-                      style: TextStyle(color: Colors.green),
+                      'Rp $harga ',
+                      style: const TextStyle(color: Colors.green),
                     ),
                   ],
                 ),
