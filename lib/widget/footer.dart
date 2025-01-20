@@ -1,3 +1,4 @@
+import 'package:e_apotek/screen/product/form_product.dart';
 import 'package:flutter/material.dart';
 
 class Footer extends StatefulWidget {
@@ -23,6 +24,10 @@ class _FooterState extends State<Footer> {
         setState(() {
           _currentIndex = value;
         });
+        if (value == 1) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const FormProduct()));
+        }
       },
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(

@@ -10,6 +10,7 @@ class InputField extends StatefulWidget {
   final bool? errorValidation;
   final String? errorValidationText;
   final TextInputType? keyboardType;
+  final int? minLines;
 
   late final String? _textInput = controller?.text;
 
@@ -30,7 +31,8 @@ class InputField extends StatefulWidget {
       this.width,
       this.errorValidation,
       this.errorValidationText,
-      this.keyboardType});
+      this.keyboardType,
+      this.minLines});
 
   @override
   State<InputField> createState() => _InputFieldState();
@@ -47,6 +49,8 @@ class _InputFieldState extends State<InputField> {
         controller: widget.controller,
         obscureText: widget.obscureText ?? false,
         keyboardType: widget.keyboardType,
+        // minLines: null,
+        // maxLines: null,
         decoration: InputDecoration(
             labelText: widget.label,
             hintText: 'Masukan ${widget.label}',

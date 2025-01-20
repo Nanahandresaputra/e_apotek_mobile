@@ -1,4 +1,4 @@
-import 'package:e_apotek/screen/auth/list_product.dart';
+import 'package:e_apotek/screen/product/list_product.dart';
 import 'package:e_apotek/screen/auth/register.dart';
 import 'package:e_apotek/widget/custom_elevated_btn.dart';
 import 'package:e_apotek/widget/input_field.dart';

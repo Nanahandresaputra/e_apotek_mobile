@@ -1,3 +1,4 @@
+import 'package:e_apotek/helpers/currency_format.dart';
 import 'package:flutter/material.dart';
 
 class CardMedicine extends StatelessWidget {
@@ -56,7 +57,7 @@ class CardMedicine extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Rp $harga ',
+                      CurrencyFormat.convertToIdr(harga, 0),
                       style: const TextStyle(color: Colors.green),
                     ),
                   ],

@@ -1,3 +1,4 @@
+import 'package:e_apotek/screen/product/detail_product.dart';
 import 'package:e_apotek/widget/card_medicine.dart';
 import 'package:e_apotek/widget/clip_path_bar.dart';
 import 'package:e_apotek/widget/footer.dart';
@@ -29,6 +30,17 @@ class ListProduct extends StatelessWidget {
                   tag: index,
                   title: 'Albendazol tablet/ tablet kunyah 400 mg',
                   harga: 30000,
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DetailProduct(
+                                  tag: index,
+                                  title:
+                                      'Albendazol tablet/ tablet kunyah 400 mg',
+                                  harga: 3000,
+                                )));
+                  },
                 );
               }),
         ),
