@@ -4,6 +4,7 @@ import 'package:e_apotek/widget/custom_elevated_btn.dart';
 import 'package:e_apotek/widget/input_field.dart';
 import 'package:e_apotek/widget/upload_img_field.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class FormProduct extends StatefulWidget {
   const FormProduct({super.key});
@@ -16,8 +17,20 @@ class _FormProductState extends State<FormProduct> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _namaController = TextEditingController();
 
+  final UploadImgField imgValue = const UploadImgField();
+
   @override
   Widget build(BuildContext context) {
+    XFile? selectedImage;
+    ImagePicker imgPicker = ImagePicker();
+    Future<void> onPressed() async {
+      final XFile? pickedImg =
+          await imgPicker.pickImage(source: ImageSource.gallery);
+      setState(() {
+        selectedImage = pickedImg;
+      });
+    }
+
     return MaterialApp(
       home: Scaffold(
         appBar: PreferredSize(
@@ -50,8 +63,10 @@ class _FormProductState extends State<FormProduct> {
                 key: _formKey,
                 child: Column(
                   children: <Widget>[
-                    const UploadImgField(
+                    UploadImgField(
                       size: 100,
+                      onPressed: onPressed,
+                      selectedImage: selectedImage,
                     ),
                     const SizedBox(
                       height: 20,

@@ -49,8 +49,10 @@ class _InputFieldState extends State<InputField> {
         controller: widget.controller,
         obscureText: widget.obscureText ?? false,
         keyboardType: widget.keyboardType,
-        // minLines: null,
-        // maxLines: null,
+        minLines: widget.minLines,
+        maxLines: widget.obscureText != true && widget.minLines != null
+            ? widget.minLines
+            : 1,
         decoration: InputDecoration(
             labelText: widget.label,
             hintText: 'Masukan ${widget.label}',

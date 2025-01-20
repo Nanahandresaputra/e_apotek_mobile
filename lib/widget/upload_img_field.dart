@@ -7,27 +7,20 @@ import 'package:image_picker/image_picker.dart';
 class UploadImgField extends StatefulWidget {
   final double? size;
   final bool? isError;
-  const UploadImgField({super.key, this.size, this.isError});
+  final Function()? onPressed;
+  final XFile? selectedImage;
+  const UploadImgField(
+      {super.key, this.size, this.isError, this.onPressed, this.selectedImage});
 
   @override
   State<UploadImgField> createState() => _UploadImgFieldState();
 }
 
 class _UploadImgFieldState extends State<UploadImgField> {
-  ImagePicker imgPicker = ImagePicker();
-  XFile? selectedImage;
-  Future<void> _onPressed() async {
-    final XFile? pickedImg =
-        await imgPicker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      selectedImage = pickedImg;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: _onPressed,
+      onTap: widget.onPressed,
       child: Column(
         children: <Widget>[
           Container(
@@ -35,7 +28,9 @@ class _UploadImgFieldState extends State<UploadImgField> {
             width: widget.size,
             height: widget.size,
             child: DottedBorder(
-                color: const Color(0xFF58BDBD),
+                color: widget.isError == true
+                    ? Colors.red
+                    : const Color(0xFF58BDBD),
                 strokeWidth: 1,
                 borderType: BorderType.RRect,
                 radius: const Radius.circular(8),
@@ -44,9 +39,9 @@ class _UploadImgFieldState extends State<UploadImgField> {
                   children: [
                     ClipRRect(
                         borderRadius: BorderRadius.circular(8),
-                        child: selectedImage != null
+                        child: widget.selectedImage != null
                             ? Image.file(
-                                File(selectedImage!.path),
+                                File(widget.selectedImage!.path),
                                 height: widget.size,
                                 width: widget.size,
                                 fit: BoxFit.cover,
@@ -54,7 +49,7 @@ class _UploadImgFieldState extends State<UploadImgField> {
                             : const Center(
                                 child: Icon(Icons.camera_alt,
                                     size: 30, color: Color(0xFF58BDBD)))),
-                    selectedImage != null
+                    widget.selectedImage != null
                         ? Align(
                             alignment: Alignment.bottomRight,
                             child: Container(
@@ -72,9 +67,12 @@ class _UploadImgFieldState extends State<UploadImgField> {
                   ],
                 )),
           ),
-          const Text(
-            'Upload Gambar',
-            style: TextStyle(color: Color(0xFF58BDBD)),
+          Text(
+            widget.isError == true ? 'Masukan Gambar' : 'Upload Gambar',
+            style: TextStyle(
+                color: widget.isError == true
+                    ? Colors.red
+                    : const Color(0xFF58BDBD)),
           )
         ],
       ),
