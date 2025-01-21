@@ -19,18 +19,18 @@ class _FormProductState extends State<FormProduct> {
 
   final UploadImgField imgValue = const UploadImgField();
 
+  XFile? selectedImage;
+  ImagePicker imgPicker = ImagePicker();
+
+  Future<void> onPressed() async {
+    XFile? pickedImg = await imgPicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      selectedImage = pickedImg;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    XFile? selectedImage;
-    ImagePicker imgPicker = ImagePicker();
-    Future<void> onPressed() async {
-      final XFile? pickedImg =
-          await imgPicker.pickImage(source: ImageSource.gallery);
-      setState(() {
-        selectedImage = pickedImg;
-      });
-    }
-
     return MaterialApp(
       home: Scaffold(
         appBar: PreferredSize(
@@ -98,7 +98,7 @@ class _FormProductState extends State<FormProduct> {
                       keyboardType: TextInputType.multiline,
                     ),
                     CustomElevatedBtn(
-                        label: 'Login',
+                        label: 'Simpan',
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             debugPrint(

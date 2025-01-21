@@ -1,4 +1,5 @@
 import 'package:e_apotek/helpers/currency_format.dart';
+import 'package:e_apotek/screen/product/form_product.dart';
 import 'package:e_apotek/screen/product/list_product.dart';
 import 'package:flutter/material.dart';
 
@@ -32,64 +33,8 @@ class DetailProduct extends StatelessWidget {
               )),
           floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
           body: Stack(
+            fit: StackFit.expand,
             children: <Widget>[
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Row(
-                  children: <Widget>[
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 2,
-                      child: FloatingActionButton(
-                          heroTag: 'hapus',
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(0)),
-                          backgroundColor: Colors.red,
-                          onPressed: () {},
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(
-                                Icons.delete,
-                                color: Colors.white,
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                'Hapus',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ],
-                          )),
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 2,
-                      child: FloatingActionButton(
-                          heroTag: 'edit',
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(0)),
-                          backgroundColor: const Color(0xFF58BDBD),
-                          onPressed: () {},
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(
-                                Icons.edit_square,
-                                color: Colors.white,
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                'Edit',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ],
-                          )),
-                    ),
-                  ],
-                ),
-              ),
               ListView(
                 padding: EdgeInsets.zero,
                 children: <Widget>[
@@ -133,6 +78,69 @@ class DetailProduct extends StatelessWidget {
                     ),
                   )
                 ],
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 2,
+                      child: FloatingActionButton(
+                          heroTag: 'hapus',
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(0)),
+                          backgroundColor: Colors.red,
+                          onPressed: () {},
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                Icons.delete,
+                                color: Colors.white,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                'Hapus',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ],
+                          )),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 2,
+                      child: FloatingActionButton(
+                          heroTag: 'edit',
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(0)),
+                          backgroundColor: const Color(0xFF58BDBD),
+                          onPressed: () {
+                            debugPrint('trigereedd');
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const FormProduct()));
+                          },
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                Icons.edit_square,
+                                color: Colors.white,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                'Edit',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ],
+                          )),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
