@@ -1,4 +1,6 @@
+import 'package:e_apotek/screen/auth/account.dart';
 import 'package:e_apotek/screen/product/form_product.dart';
+import 'package:e_apotek/screen/product/list_product.dart';
 import 'package:flutter/material.dart';
 
 class Footer extends StatefulWidget {
@@ -20,13 +22,18 @@ class _FooterState extends State<Footer> {
       backgroundColor: const Color(0xFF58BDBD),
       elevation: 8,
       onTap: (value) {
-        debugPrint('value--- $value');
         setState(() {
           _currentIndex = value;
         });
         if (value == 1) {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const FormProduct()));
+        } else if (value == 2) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (constext) => const Account()));
+        } else {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (constext) => const ListProduct()));
         }
       },
       items: const <BottomNavigationBarItem>[

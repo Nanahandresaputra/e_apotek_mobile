@@ -66,6 +66,7 @@ flutter:
   assets:
     - assets/img/medic.png
     - assets/img/vector-1.png
+    - assets/img/vector-2.png
     - assets/img/logo.png
     - assets/img/loading-medicine.gif
     - assets/img/img-placeholder.jpg
