@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 
 class Footer extends StatefulWidget {
   final Function()? onTap;
-  const Footer({super.key, this.onTap});
+  final int? defaultCurrent;
+  const Footer({super.key, this.onTap, this.defaultCurrent});
 
   @override
   State<Footer> createState() => _FooterState();
@@ -16,7 +17,7 @@ class _FooterState extends State<Footer> {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      currentIndex: _currentIndex,
+      currentIndex: widget.defaultCurrent ?? _currentIndex,
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.white60,
       backgroundColor: const Color(0xFF58BDBD),

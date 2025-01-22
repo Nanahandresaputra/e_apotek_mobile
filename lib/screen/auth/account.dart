@@ -130,7 +130,9 @@ class Account extends StatelessWidget {
             ),
             const Align(
               alignment: Alignment.bottomCenter,
-              child: Footer(),
+              child: Footer(
+                defaultCurrent: 2,
+              ),
             )
           ],
         ),
