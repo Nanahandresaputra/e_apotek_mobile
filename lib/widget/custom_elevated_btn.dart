@@ -21,11 +21,15 @@ class CustomElevatedBtn extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8))),
           onPressed: isLoading == true ? null : onPressed,
-          child: Text(
-            '$label',
-            style:
-                const TextStyle(color: Colors.white, fontSize: 16, height: 3),
-          )),
+          child: isLoading == true
+              ? const CircularProgressIndicator(
+                  color: Colors.white,
+                )
+              : Text(
+                  '$label',
+                  style: const TextStyle(
+                      color: Colors.white, fontSize: 16, height: 3),
+                )),
     );
   }
 }

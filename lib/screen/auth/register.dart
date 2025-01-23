@@ -100,7 +100,7 @@ class _RegisterState extends State<Register> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => const Login()));
+                                        builder: (context) => Login()));
                               },
                               child: const Text('Login disini',
                                   style: TextStyle(

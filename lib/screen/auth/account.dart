@@ -119,7 +119,7 @@ class Account extends StatelessWidget {
                         ),
                         ItemListProfile(
                           icon: Icons.exit_to_app,
-                          title: 'Keluar',
+                          title: 'Logout',
                           onPressed: () {},
                         ),
                       ],

@@ -1,12 +1,16 @@
-import 'dart:convert';
-
 class ApiUrl {
   final int? dataId;
 
   ApiUrl({this.dataId});
 
-  String baseUrl = 'http://localhost/ci4-api-apotek/public';
+  String baseUrl = 'http://192.168.50.232/ci4-api-apotek/public';
 
-  late String products = '$base64Url/produk';
-  late String productFindOne = '$base64Url/product/$dataId';
+// product
+  late String products = '$baseUrl/produk';
+  late String productFindOne = '$baseUrl/product/$dataId';
+
+// auth
+
+  late String register = '$baseUrl/registrasi';
+  late String login = '$baseUrl/login';
 }
