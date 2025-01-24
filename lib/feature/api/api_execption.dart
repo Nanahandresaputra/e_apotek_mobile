@@ -22,6 +22,15 @@ class ApiExeception implements Exception {
   }
 }
 
+class ResCode {
+  final int? respCode;
+
+  ResCode({this.respCode});
+
+  factory ResCode.fromMap(Map<String, dynamic> responseCode) =>
+      ResCode(respCode: responseCode['code']);
+}
+
 // class ApiInterceptor extends ApiExeception {
 //   ApiInterceptor(int code, String message)
 //       : super(code: code, message: message);

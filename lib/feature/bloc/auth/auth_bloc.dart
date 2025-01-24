@@ -1,6 +1,7 @@
 import 'package:e_apotek/feature/api/api_execption.dart';
 import 'package:e_apotek/feature/api/api_url.dart';
 import 'package:e_apotek/feature/model/auth_model.dart';
+import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 
@@ -28,13 +29,19 @@ class RegisterBloc extends Bloc<AuthEvent, AuthState> {
 
 class LoginBloc extends Bloc<AuthEvent, AuthState> {
   LoginBloc() : super(LoginInitial()) {
-    print('bloc triggerere');
     on<GetLoginEvent>((event, emit) async {
       emit(LoginLoading());
       final response =
-          await http.post(Uri.parse(apiUrl.products), body: event.loginBody);
+          await http.post(Uri.parse(apiUrl.login), body: event.loginBody);
+
       if (response.statusCode == 200) {
-        emit(LoginSuccess(login: loginFromMap(response.body)));
+        if (_resCode(response.body) == 200) {
+          emit(LoginSuccess(login: loginFromMap(response.body)));
+        } else {
+          emit(LoginError(
+              apiExeception: ApiExeception(
+                  code: _resCode(response.body), message: response.body)));
+        }
       } else {
         emit(LoginError(
             apiExeception: ApiExeception(
@@ -42,4 +49,9 @@ class LoginBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
   }
+}
+
+int _resCode(String res) {
+  var response = json.decode(res);
+  return response['code'];
 }

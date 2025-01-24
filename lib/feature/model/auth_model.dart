@@ -28,7 +28,8 @@ class Register {
       };
 }
 
-LoginModel loginFromMap(String str) => LoginModel.fromMap(json.decode(str));
+LoginModel loginFromMap(String str) =>
+    LoginModel.fromMap(json.decode(str)['data']);
 
 String loginToMap(LoginModel data) => json.encode(data.toMap());
 

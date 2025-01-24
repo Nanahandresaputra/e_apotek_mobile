@@ -5,23 +5,29 @@ import 'package:e_apotek/widget/input_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
   Login({super.key});
 
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _emailController = TextEditingController();
 
   final TextEditingController _passwordController = TextEditingController();
 
-  final LoginBloc _loginBloc = LoginBloc();
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: BlocBuilder<LoginBloc, AuthState>(
-        builder: (context, state) {
+        builder: (contextState, state) {
           return Builder(builder: (context) {
+            debugPrint('bloc loading ${state is LoginLoading} ');
+            debugPrint('bloc success ${state is LoginSuccess} ');
+            debugPrint('bloc errorr ${state is LoginError} ');
             return Scaffold(
               body: Stack(
                 children: [
@@ -66,25 +72,30 @@ class Login extends StatelessWidget {
                                   obscureText: true,
                                   errorValidation: state is LoginError,
                                   errorValidationText:
-                                      'email atau password salah!',
+                                      'Email atau Password salah!',
                                 ),
                                 CustomElevatedBtn(
                                     label: 'Login',
                                     isLoading: state is LoginLoading,
-                                    onPressed: () {
+                                    onPressed: () async {
                                       Map<String, String> body = {
                                         'email': _emailController.text,
                                         'password': _passwordController.text,
                                       };
-                                      debugPrint('form data triggered: ');
+
+                                      debugPrint(
+                                          'is error bloc ${state is LoginError}');
+
                                       if (_formKey.currentState!.validate()) {
-                                        debugPrint('validating ---');
-                                        _loginBloc.add(
+                                        debugPrint('validating --- $body');
+                                        contextState.read<LoginBloc>().add(
                                             GetLoginEvent(loginBody: body));
+                                        await Future.delayed(
+                                            const Duration(seconds: 3));
                                         if (state is LoginSuccess) {
                                           debugPrint('form data, $body');
                                           debugPrint(
-                                              'form data response, ${state.login}');
+                                              'form data response, ${state.login!.user}');
                                           // Navigator.push(
                                           //     context,
                                           //     MaterialPageRoute(
@@ -92,7 +103,7 @@ class Login extends StatelessWidget {
                                           //             const ListProduct()));
                                         } else if (state is LoginError) {
                                           debugPrint(
-                                              'form datae error, ${state.apiExeception}');
+                                              'form datae error, ${state.apiExeception!.message}');
                                         }
                                       }
                                     }),

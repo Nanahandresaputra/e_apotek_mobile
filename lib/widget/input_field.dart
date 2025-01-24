@@ -39,9 +39,16 @@ class InputField extends StatefulWidget {
 }
 
 class _InputFieldState extends State<InputField> {
-  Color _labelColor = const Color(0xFF58BDBD);
   @override
   Widget build(BuildContext context) {
+    bool _emailValidator(dynamic value) {
+      return !RegExp(
+        r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$',
+      ).hasMatch(value ?? '');
+    }
+
+    Color _labelColor = const Color(0xFF58BDBD);
+
     return Container(
       width: widget.width,
       margin: const EdgeInsets.only(bottom: 17),
@@ -78,32 +85,31 @@ class _InputFieldState extends State<InputField> {
                 borderSide: const BorderSide(color: Colors.red),
                 borderRadius: BorderRadius.circular(8))),
         validator: (value) {
-          if (widget.required!) {
-            if (value == null || value.isEmpty) {
-              setState(() {
-                _labelColor = Colors.red;
-              });
-              return '${widget.label} harus diisi!';
-            } else if (widget.isEmail ?? false) {
-              if (!RegExp(
-                r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$',
-              ).hasMatch(value)) {
-                setState(() {
-                  _labelColor = Colors.red;
-                });
-
-                return 'Email tidak valid!';
-              }
-            }
-          } else if (widget.errorValidation!) {
+          if (widget.required! && (value == null || value.isEmpty)) {
             setState(() {
               _labelColor = Colors.red;
             });
-            return '${widget.errorValidationText}';
-          } else if (widget.isEmail!) {
-            if (!RegExp(
-              r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$',
-            ).hasMatch(value ?? '')) {
+            return '${widget.label} harus diisi!';
+            // else if (widget.isEmail ?? false) {
+            //   if (_emailValidator(value)) {
+            //     setState(() {
+            //       _labelColor = Colors.red;
+            //     });
+
+            //     return _emailValidator(value) ? 'Email tidak valid!' : '';
+            //   }
+            // }
+            // else if (widget.errorValidation!) {
+            //   debugPrint('triggerr error validation');
+
+            //   setState(() {
+            //     _labelColor = Colors.red;
+            //   });
+            //   return '${widget.errorValidationText}';
+            // }
+          }
+          if (widget.isEmail ?? false) {
+            if (_emailValidator(value)) {
               setState(() {
                 _labelColor = Colors.red;
               });
@@ -111,6 +117,16 @@ class _InputFieldState extends State<InputField> {
               return 'Email tidak valid!';
             }
           }
+          if (widget.errorValidation ?? false) {
+            debugPrint('triggerr error validation');
+            setState(() {
+              _labelColor = Colors.red;
+            });
+            return widget.errorValidationText != null
+                ? '${widget.errorValidationText}'
+                : '';
+          }
+
           setState(() {
             _labelColor = const Color(0xFF58BDBD);
           });
