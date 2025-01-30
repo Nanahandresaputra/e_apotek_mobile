@@ -2,17 +2,27 @@ part of 'product_bloc.dart';
 
 abstract class ProductState {}
 
-final class ProductInitial extends ProductState {}
+class ProductInitial extends ProductState {}
 
-final class ProductLoading extends ProductState {}
+class ProductLoading extends ProductState {}
 
-final class ProductSuccess extends ProductState {
-  final List<Product>? product;
+class ProductSuccess extends ProductState {
+  List<Product>? product;
   ProductSuccess({required this.product});
 }
 
-final class ProductError extends ProductState {
-  final ApiExeception? apiExeception;
+class ProductError extends ProductState {
+  ApiExeception? apiExeception;
 
   ProductError({required this.apiExeception});
+}
+
+class ProductPostLoading extends ProductState {}
+
+class ProductPostSuccess extends ProductState {}
+
+class ProductPostError extends ProductState {
+  ApiExeception? apiExeception;
+
+  ProductPostError({required this.apiExeception});
 }

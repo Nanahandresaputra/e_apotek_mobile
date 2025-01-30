@@ -1,6 +1,6 @@
 // To parse this JSON data, do
 //
-//     final product = productFromMap(jsonString);
+//   product = productFromMap(jsonString);
 
 import 'dart:convert';
 
@@ -11,13 +11,13 @@ String productToMap(List<Product> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toMap())));
 
 class Product {
-  final String? id;
-  final String? kodeProduk;
-  final String? namaProduk;
-  final String? harga;
-  final String? description;
-  final String? thumbnail;
-  final String? thumbnailUrl;
+  int? id;
+  String? kodeProduk;
+  String? namaProduk;
+  int? harga;
+  String? description;
+  String? thumbnail;
+  String? thumbnailUrl;
 
   Product({
     this.id,
@@ -30,10 +30,10 @@ class Product {
   });
 
   factory Product.fromMap(Map<String, dynamic> json) => Product(
-        id: json["id"],
+        id: int.parse(json["id"]),
         kodeProduk: json["kode_produk"],
         namaProduk: json["nama_produk"],
-        harga: json["harga"],
+        harga: int.parse(json["harga"]),
         description: json["description"],
         thumbnail: json["thumbnail"],
         thumbnailUrl: json["thumbnail_url"],

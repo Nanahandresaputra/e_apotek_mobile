@@ -13,7 +13,6 @@ class CustomElevatedBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('loading ... $isLoading');
     return SizedBox(
       width: 400,
       child: ElevatedButton(
@@ -23,8 +22,12 @@ class CustomElevatedBtn extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8))),
           onPressed: isLoading == true ? null : onPressed,
           child: isLoading == true
-              ? const CircularProgressIndicator(
-                  color: Colors.white,
+              ? const SizedBox(
+                  height: 14,
+                  width: 14,
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
                 )
               : Text(
                   '$label',

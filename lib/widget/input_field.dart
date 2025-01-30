@@ -1,3 +1,4 @@
+import 'package:e_apotek/helpers/email_validator.dart';
 import 'package:flutter/material.dart';
 
 class InputField extends StatefulWidget {
@@ -21,18 +22,19 @@ class InputField extends StatefulWidget {
     return false;
   }
 
-  InputField(
-      {super.key,
-      this.controller,
-      this.label,
-      this.isEmail,
-      this.obscureText,
-      this.required,
-      this.width,
-      this.errorValidation,
-      this.errorValidationText,
-      this.keyboardType,
-      this.minLines});
+  InputField({
+    super.key,
+    this.controller,
+    this.label,
+    this.isEmail,
+    this.obscureText,
+    this.required,
+    this.width,
+    this.errorValidation,
+    this.errorValidationText,
+    this.keyboardType,
+    this.minLines,
+  });
 
   @override
   State<InputField> createState() => _InputFieldState();
@@ -41,13 +43,12 @@ class InputField extends StatefulWidget {
 class _InputFieldState extends State<InputField> {
   @override
   Widget build(BuildContext context) {
-    bool _emailValidator(dynamic value) {
-      return !RegExp(
-        r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$',
-      ).hasMatch(value ?? '');
+    bool emailValidator(dynamic value) {
+      EmailValidator emailValidator = EmailValidator(value: value);
+      return emailValidator.isValid();
     }
 
-    Color _labelColor = const Color(0xFF58BDBD);
+    Color labelColor = const Color(0xFF58BDBD);
 
     return Container(
       width: widget.width,
@@ -67,7 +68,7 @@ class _InputFieldState extends State<InputField> {
             errorStyle: const TextStyle(color: Colors.red),
             floatingLabelStyle: WidgetStateTextStyle.resolveWith((state) {
               if (state.contains(WidgetState.focused)) {
-                return TextStyle(color: _labelColor);
+                return TextStyle(color: labelColor);
               } else {
                 return const TextStyle(color: Colors.black54);
               }
@@ -87,40 +88,26 @@ class _InputFieldState extends State<InputField> {
         validator: (value) {
           if (widget.required! && (value == null || value.isEmpty)) {
             setState(() {
-              _labelColor = Colors.red;
+              labelColor = Colors.red;
             });
             return '${widget.label} harus diisi!';
-            // else if (widget.isEmail ?? false) {
-            //   if (_emailValidator(value)) {
-            //     setState(() {
-            //       _labelColor = Colors.red;
-            //     });
-
-            //     return _emailValidator(value) ? 'Email tidak valid!' : '';
-            //   }
-            // }
-            // else if (widget.errorValidation!) {
-            //   debugPrint('triggerr error validation');
-
-            //   setState(() {
-            //     _labelColor = Colors.red;
-            //   });
-            //   return '${widget.errorValidationText}';
-            // }
-          }
-          if (widget.isEmail ?? false) {
-            if (_emailValidator(value)) {
+          } else if ((widget.isEmail ?? false)) {
+            if (emailValidator(value)) {
               setState(() {
-                _labelColor = Colors.red;
+                labelColor = Colors.red;
               });
 
               return 'Email tidak valid!';
             }
-          }
-          if (widget.errorValidation ?? false) {
-            debugPrint('triggerr error validation');
+            if (widget.errorValidation ?? false) {
+              setState(() {
+                labelColor = Colors.red;
+              });
+              return '';
+            }
+          } else if (widget.errorValidation ?? false) {
             setState(() {
-              _labelColor = Colors.red;
+              labelColor = Colors.red;
             });
             return widget.errorValidationText != null
                 ? '${widget.errorValidationText}'
@@ -128,7 +115,7 @@ class _InputFieldState extends State<InputField> {
           }
 
           setState(() {
-            _labelColor = const Color(0xFF58BDBD);
+            labelColor = const Color(0xFF58BDBD);
           });
           return null;
         },

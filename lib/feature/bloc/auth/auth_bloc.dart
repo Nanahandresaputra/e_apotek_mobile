@@ -39,8 +39,8 @@ class LoginBloc extends Bloc<AuthEvent, AuthState> {
           emit(LoginSuccess(login: loginFromMap(response.body)));
         } else {
           emit(LoginError(
-              apiExeception: ApiExeception(
-                  code: _resCode(response.body), message: response.body)));
+              apiExeception:
+                  ApiExeception.fromMap(json.decode(response.body))));
         }
       } else {
         emit(LoginError(

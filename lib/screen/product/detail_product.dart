@@ -4,16 +4,32 @@ import 'package:e_apotek/screen/product/list_product.dart';
 import 'package:flutter/material.dart';
 
 class DetailProduct extends StatelessWidget {
+  final int? productId;
   final String? title;
   final String? thumbnail;
   final int? harga;
   final int? tag;
+  final String? description;
+  final String? codeProduct;
 
   const DetailProduct(
-      {super.key, this.title, this.thumbnail, this.harga, this.tag});
+      {super.key,
+      this.title,
+      this.thumbnail,
+      this.harga,
+      this.tag,
+      this.description,
+      this.codeProduct,
+      this.productId});
 
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> detailData = {
+      'code': codeProduct,
+      'name': title,
+      'price': harga.toString(),
+      'description': description,
+    };
     return MaterialApp(
       home: Builder(builder: (context) {
         return Scaffold(
@@ -40,11 +56,23 @@ class DetailProduct extends StatelessWidget {
                 children: <Widget>[
                   Hero(
                     tag: '$tag',
-                    child: Image.asset(
-                      'assets/img/img-placeholder.jpg',
+                    child: Image.network(
+                      '$thumbnail',
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.width * 0.7,
                       fit: BoxFit.cover,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        } else {
+                          return Image.asset(
+                            'assets/img/img-placeholder.jpg',
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.width * 0.7,
+                            fit: BoxFit.cover,
+                          );
+                        }
+                      },
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -57,7 +85,7 @@ class DetailProduct extends StatelessWidget {
                           '$title',
                           style: const TextStyle(fontSize: 20),
                         ),
-                        Text(CurrencyFormat.convertToIdr(3000, 0),
+                        Text(CurrencyFormat.convertToIdr(harga, 0),
                             style: const TextStyle(
                                 color: Colors.green,
                                 fontSize: 18,
@@ -70,8 +98,8 @@ class DetailProduct extends StatelessWidget {
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 8),
-                        const Text(
-                          'ALBENDAZOLE 400 MG TABLET merupakan obat generik dengan kandungan Albendazole. Albendazole adalah obat cacing derivat benzimidazol berspektrum luas. Albendazole bekerja dengan cara merusak sel di usus cacing, sehingga cacing tidak dapat menyerap gula, serta kehabisan energi dan mati.',
+                        Text(
+                          '$description',
                           textAlign: TextAlign.justify,
                         )
                       ],
@@ -120,7 +148,12 @@ class DetailProduct extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const FormProduct()));
+                                    builder: (context) => FormProduct(
+                                          isEdit: true,
+                                          initialImg: thumbnail,
+                                          initialValue: detailData,
+                                          productId: productId,
+                                        )));
                           },
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.center,

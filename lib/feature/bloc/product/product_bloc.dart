@@ -22,5 +22,18 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
                 code: response.statusCode, message: response.body)));
       }
     });
+
+    on<PostProductEvent>((event, emit) async {
+      emit(ProductPostLoading());
+      final response = await http
+          .post(Uri.parse(apiUrl.productPost(event.dataId)), body: event.body);
+      if (response.statusCode == 200) {
+        emit(ProductPostSuccess());
+      } else {
+        emit(ProductPostError(
+            apiExeception: ApiExeception(
+                code: response.statusCode, message: response.body)));
+      }
+    });
   }
 }

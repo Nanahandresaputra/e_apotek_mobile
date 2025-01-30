@@ -1,13 +1,15 @@
 class ApiUrl {
-  final int? dataId;
+  ApiUrl();
 
-  ApiUrl({this.dataId});
-
-  String baseUrl = 'http://192.168.50.232/ci4-api-apotek/public';
+  String baseUrl = 'http://192.168.50.218/ci4-api-apotek/public';
 
 // product
   late String products = '$baseUrl/produk';
-  late String productFindOne = '$baseUrl/product/$dataId';
+  late String productFindOne = '$baseUrl/product';
+
+  String productPost(int? dataId) {
+    return dataId != null ? '$products/$dataId' : products;
+  }
 
 // auth
 

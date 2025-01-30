@@ -29,15 +29,25 @@ class CardMedicine extends StatelessWidget {
               Hero(
                 tag: '$tag',
                 child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      topRight: Radius.circular(8)),
-                  child: Image.asset(
-                    'assets/img/img-placeholder.jpg',
-                    fit: BoxFit.cover,
-                    height: 120,
-                  ),
-                ),
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(8),
+                        topRight: Radius.circular(8)),
+                    child: Image.network(
+                      '$thumbnail',
+                      fit: BoxFit.cover,
+                      height: 120,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        } else {
+                          return Image.asset(
+                            'assets/img/img-placeholder.jpg',
+                            fit: BoxFit.cover,
+                            height: 120,
+                          );
+                        }
+                      },
+                    )),
               ),
               const SizedBox(
                 height: 8,

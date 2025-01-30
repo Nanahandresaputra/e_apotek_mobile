@@ -5,9 +5,9 @@ Register registerFromMap(String str) => Register.fromMap(json.decode(str));
 String registerToMap(Register data) => json.encode(data.toMap());
 
 class Register {
-  final int? code;
-  final bool? status;
-  final String? data;
+  int? code;
+  bool? status;
+  String? data;
 
   Register({
     this.code,
@@ -34,8 +34,8 @@ LoginModel loginFromMap(String str) =>
 String loginToMap(LoginModel data) => json.encode(data.toMap());
 
 class LoginModel {
-  final String? token;
-  final User? user;
+  String? token;
+  User? user;
 
   LoginModel({
     this.token,
@@ -54,21 +54,25 @@ class LoginModel {
 }
 
 class User {
-  final String? id;
-  final String? email;
+  int? id;
+  String? email;
+  String? nama;
 
   User({
     this.id,
     this.email,
+    this.nama,
   });
 
   factory User.fromMap(Map<String, dynamic> json) => User(
-        id: json["id"],
+        id: int.parse(json["id"]),
         email: json["email"],
+        nama: json["nama"],
       );
 
   Map<String, dynamic> toMap() => {
         "id": id,
         "email": email,
+        "nama": nama,
       };
 }
