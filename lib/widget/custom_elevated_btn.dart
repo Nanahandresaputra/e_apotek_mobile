@@ -4,20 +4,24 @@ class CustomElevatedBtn extends StatelessWidget {
   final Function()? onPressed;
   final String? label;
   final bool? isLoading;
+  final Color? color;
+  final double? width;
 
   const CustomElevatedBtn(
       {super.key,
       required this.onPressed,
       required this.label,
-      this.isLoading});
+      this.isLoading,
+      this.width,
+      this.color});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 400,
+      width: width ?? 400,
       child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF58BDBD),
+              backgroundColor: color ?? const Color(0xFF58BDBD),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8))),
           onPressed: isLoading == true ? null : onPressed,

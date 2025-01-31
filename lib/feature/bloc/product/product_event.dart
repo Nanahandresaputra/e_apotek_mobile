@@ -10,3 +10,9 @@ class PostProductEvent extends ProductEvent {
 
   PostProductEvent({required this.body, this.dataId});
 }
+
+class DeleteProductEvent extends ProductEvent {
+  int? dataId;
+
+  DeleteProductEvent({required this.dataId});
+}

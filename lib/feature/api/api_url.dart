@@ -7,7 +7,7 @@ class ApiUrl {
   late String products = '$baseUrl/produk';
   late String productFindOne = '$baseUrl/product';
 
-  String productPost(int? dataId) {
+  String productFind(int? dataId) {
     return dataId != null ? '$products/$dataId' : products;
   }
 

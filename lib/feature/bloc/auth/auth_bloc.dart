@@ -30,22 +30,27 @@ class RegisterBloc extends Bloc<AuthEvent, AuthState> {
 class LoginBloc extends Bloc<AuthEvent, AuthState> {
   LoginBloc() : super(LoginInitial()) {
     on<GetLoginEvent>((event, emit) async {
-      emit(LoginLoading());
-      final response =
-          await http.post(Uri.parse(apiUrl.login), body: event.loginBody);
+      try {
+        emit(LoginLoading());
+        final response =
+            await http.post(Uri.parse(apiUrl.login), body: event.loginBody);
 
-      if (response.statusCode == 200) {
-        if (_resCode(response.body) == 200) {
-          emit(LoginSuccess(login: loginFromMap(response.body)));
+        if (response.statusCode == 200) {
+          if (_resCode(response.body) == 200) {
+            emit(LoginSuccess(login: loginFromMap(response.body)));
+          } else {
+            emit(LoginError(
+                apiExeception:
+                    ApiExeception.fromMap(json.decode(response.body))));
+          }
         } else {
           emit(LoginError(
-              apiExeception:
-                  ApiExeception.fromMap(json.decode(response.body))));
+              apiExeception: ApiExeception(
+                  code: response.statusCode, message: response.body)));
         }
-      } else {
+      } catch (e) {
         emit(LoginError(
-            apiExeception: ApiExeception(
-                code: response.statusCode, message: response.body)));
+            apiExeception: ApiExeception(code: 500, message: e.toString())));
       }
     });
   }

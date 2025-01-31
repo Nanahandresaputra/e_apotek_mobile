@@ -1,13 +1,39 @@
+import 'package:e_apotek/screen/auth/login.dart';
 import 'package:e_apotek/screen/product/list_product.dart';
 import 'package:e_apotek/widget/footer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Account extends StatelessWidget {
+class Account extends StatefulWidget {
   const Account({super.key});
 
   @override
+  State<Account> createState() => _AccountState();
+}
+
+class _AccountState extends State<Account> {
+  void getPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      email = prefs.getString('email') ?? '';
+      nama = prefs.getString('nama') ?? '';
+    });
+  }
+
+  String email = '';
+  String nama = '';
+
+  @override
+  void initState() {
+    getPreferences();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    debugPrint('ini data ---- $nama ---- $email ----');
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -47,14 +73,14 @@ class Account extends StatelessWidget {
                         alignment: const Alignment(0, -0.85),
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.95,
-                          child: const Card(
+                          child: Card(
                             color: Colors.white,
                             child: Padding(
                               padding: EdgeInsets.all(10),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
-                                  CircleAvatar(
+                                  const CircleAvatar(
                                     radius: 35,
                                     backgroundColor: Color(0xFF58BDBD),
                                     child: CircleAvatar(
@@ -67,7 +93,7 @@ class Account extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 18,
                                   ),
                                   SizedBox(
@@ -78,12 +104,13 @@ class Account extends StatelessWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: <Widget>[
-                                        Text('Namamu',
-                                            style: TextStyle(
+                                        Text(nama,
+                                            style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 22)),
-                                        Text('Namamu@mail.com',
-                                            style: TextStyle(fontSize: 16)),
+                                        Text(email,
+                                            style:
+                                                const TextStyle(fontSize: 16)),
                                       ],
                                     ),
                                   )
@@ -120,7 +147,14 @@ class Account extends StatelessWidget {
                         ItemListProfile(
                           icon: Icons.exit_to_app,
                           title: 'Logout',
-                          onPressed: () {},
+                          onPressed: () async {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Login()));
+                            final prefs = await SharedPreferences.getInstance();
+                            prefs.clear();
+                          },
                         ),
                       ],
                     ),

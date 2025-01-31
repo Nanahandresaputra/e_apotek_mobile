@@ -30,12 +30,13 @@ class LoginWidget extends StatelessWidget {
 
     void _loginSubmit(context, state) async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-      if (state is LoginSuccess) {
-        debugPrint('form data response, ${state.login!.token}');
 
+      debugPrint('state references ${prefs.getInt('userId')}');
+
+      if (state is LoginSuccess) {
         await prefs.setString('token', state.login!.token ?? '');
         await prefs.setString('email', state.login!.user!.email ?? '');
-        await prefs.setString('email', state.login!.user!.nama ?? '');
+        await prefs.setString('nama', state.login!.user!.nama ?? '');
         await prefs.setInt('userId', state.login!.user!.id ?? 0);
 
         await Navigator.pushReplacement(context,
@@ -56,6 +57,8 @@ class LoginWidget extends StatelessWidget {
       return BlocBuilder<LoginBloc, AuthState>(
         builder: (context, state) {
           WidgetsBinding.instance!.addPostFrameCallback((_) {
+            debugPrint('state initial ${state is LoginInitial}');
+            debugPrint('state succeess ${state is LoginSuccess}');
             _loginSubmit(context, state);
           });
           return Scaffold(

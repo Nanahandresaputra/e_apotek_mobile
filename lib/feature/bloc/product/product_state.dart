@@ -26,3 +26,13 @@ class ProductPostError extends ProductState {
 
   ProductPostError({required this.apiExeception});
 }
+
+class ProductDeleteLoading extends ProductState {}
+
+class ProductDeleteSuccess extends ProductState {}
+
+class ProductDeleteError extends ProductState {
+  ApiExeception? apiExeception;
+
+  ProductDeleteError({required this.apiExeception});
+}

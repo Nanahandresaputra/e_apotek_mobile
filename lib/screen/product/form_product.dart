@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:e_apotek/feature/bloc/product/product_bloc.dart';
 import 'package:e_apotek/screen/product/list_product.dart';
 import 'package:e_apotek/widget/clip_path_bar.dart';
@@ -178,38 +180,39 @@ class _FormListState extends State<FormList> {
                           minLines: 3,
                           required: true,
                           controller: deskripsiController,
-                          keyboardType: TextInputType.multiline,
+                          keyboardType: TextInputType.text,
                         ),
                         CustomElevatedBtn(
                             label: 'Simpan',
                             isLoading: state is ProductPostLoading,
                             onPressed: () async {
+                              if (formKey.currentState!.validate()) {}
+                              if (selectedImage == null &&
+                                  widget.initialImg == null) {
+                                setState(() {
+                                  isValidateImg = true;
+                                });
+                                return;
+                              }
+
                               Map<String, dynamic> body = {
                                 'kode_produk': kodeController.text,
                                 'nama_produk': namaController.text,
                                 'harga': hargaController.text,
                                 'description': deskripsiController.text,
-                                'thumbnail': selectedImage
+                                'thumbnail': selectedImage != null
+                                    ? File(selectedImage!.path)
+                                    : null
                               };
 
                               setState(() {
-                                isValidateImg = selectedImage == null &&
-                                    widget.initialImg == null;
+                                isValidateImg = false;
                               });
-                              if (formKey.currentState!.validate() &&
-                                  selectedImage != null) {
-                                context.read<ProductBloc>().add(
-                                    PostProductEvent(
-                                        body: body, dataId: widget.productId));
-                                await Future.delayed(
-                                    const Duration(seconds: 1));
 
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) =>
-                                //             const ListProduct()));
-                              }
+                              context.read<ProductBloc>().add(PostProductEvent(
+                                    body: body,
+                                    dataId: widget.productId,
+                                  ));
                             })
                       ],
                     ))
