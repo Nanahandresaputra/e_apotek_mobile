@@ -31,24 +31,25 @@ class LoginWidget extends StatelessWidget {
     void _loginSubmit(context, state) async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      debugPrint('state references ${prefs.getInt('userId')}');
+      if (_emailController.text.isNotEmpty ||
+          _passwordController.text.isNotEmpty) {
+        if (state is LoginSuccess) {
+          await prefs.setString('token', state.login!.token ?? '');
+          await prefs.setString('email', state.login!.user!.email ?? '');
+          await prefs.setString('nama', state.login!.user!.nama ?? '');
+          await prefs.setInt('userId', state.login!.user!.id ?? 0);
 
-      if (state is LoginSuccess) {
-        await prefs.setString('token', state.login!.token ?? '');
-        await prefs.setString('email', state.login!.user!.email ?? '');
-        await prefs.setString('nama', state.login!.user!.nama ?? '');
-        await prefs.setInt('userId', state.login!.user!.id ?? 0);
-
-        await Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const ListProduct()));
-      }
-      if (state is LoginError) {
-        if (state.apiExeception!.code != 400) {
-          showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                    title: Text(state.apiExeception!.message!),
-                  ));
+          await Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const ListProduct()));
+        }
+        if (state is LoginError) {
+          if (state.apiExeception!.code != 400) {
+            showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                      title: Text(state.apiExeception!.message!),
+                    ));
+          }
         }
       }
     }
@@ -116,9 +117,6 @@ class LoginWidget extends StatelessWidget {
                                       'password': _passwordController.text,
                                     };
 
-                                    debugPrint(
-                                        'validatiing test ${(_emailController.text.isNotEmpty || _passwordController.text.isNotEmpty) && !EmailValidator(value: _emailController.text).isValid()}');
-
                                     if ((_emailController.text.isNotEmpty ||
                                             _passwordController
                                                 .text.isNotEmpty) &&
@@ -132,7 +130,10 @@ class LoginWidget extends StatelessWidget {
                                           const Duration(seconds: 1));
                                     }
 
-                                    if (_formKey.currentState!.validate()) {}
+                                    if (_formKey.currentState != null &&
+                                        _formKey.currentState!.validate()) {
+                                      return;
+                                    }
                                   }),
                               const SizedBox(
                                 height: 15,

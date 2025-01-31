@@ -1,7 +1,7 @@
 class ApiUrl {
   ApiUrl();
 
-  String baseUrl = 'http://192.168.50.218/ci4-api-apotek/public';
+  String baseUrl = 'http://192.168.0.107/ci4-api-apotek/public';
 
 // product
   late String products = '$baseUrl/produk';
