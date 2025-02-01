@@ -22,6 +22,15 @@ class _AccountState extends State<Account> {
     });
   }
 
+  void showAbout() {
+    showAboutDialog(
+        context: context,
+        applicationName: 'Tentang Aplikasi',
+        // applicationIcon: const Icon(Icons.medication_outlined),
+        applicationLegalese:
+            'E Apotek merupakan aplikasi CRUD untuk mengolah data obat apotek dan sebagai dari tugas dari mata kuliah PEMROGRAMAN BERGERAK. Kontributor atau bagian dari kelompok ini yaitu Nana Handre Saputra, Agung Putra Laksono dan Hidayat.');
+  }
+
   String email = '';
   String nama = '';
 
@@ -33,7 +42,6 @@ class _AccountState extends State<Account> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('ini data ---- $nama ---- $email ----');
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -76,7 +84,7 @@ class _AccountState extends State<Account> {
                           child: Card(
                             color: Colors.white,
                             child: Padding(
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
@@ -139,7 +147,7 @@ class _AccountState extends State<Account> {
                         ItemListProfile(
                           icon: CupertinoIcons.exclamationmark,
                           title: 'Tentang Aplikasi',
-                          onPressed: () {},
+                          onPressed: showAbout,
                         ),
                         const SizedBox(
                           height: 12,

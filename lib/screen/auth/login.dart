@@ -22,17 +22,24 @@ class LoginWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
 
-    final TextEditingController _emailController = TextEditingController();
+    TextEditingController emailController = TextEditingController();
 
-    final TextEditingController _passwordController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
 
-    void _loginSubmit(context, state) async {
+    void loginSubmit(context, state) async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      if (_emailController.text.isNotEmpty ||
-          _passwordController.text.isNotEmpty) {
+      int? userId = prefs.getInt('userId');
+
+      if (userId != null) {
+        await Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const ListProduct()));
+      }
+
+      if (emailController.text.isNotEmpty ||
+          passwordController.text.isNotEmpty) {
         if (state is LoginSuccess) {
           await prefs.setString('token', state.login!.token ?? '');
           await prefs.setString('email', state.login!.user!.email ?? '');
@@ -55,12 +62,10 @@ class LoginWidget extends StatelessWidget {
     }
 
     return Builder(builder: (context) {
-      return BlocBuilder<LoginBloc, AuthState>(
+      return BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
           WidgetsBinding.instance!.addPostFrameCallback((_) {
-            debugPrint('state initial ${state is LoginInitial}');
-            debugPrint('state succeess ${state is LoginSuccess}');
-            _loginSubmit(context, state);
+            loginSubmit(context, state);
           });
           return Scaffold(
             body: Stack(
@@ -86,7 +91,7 @@ class LoginWidget extends StatelessWidget {
                         ),
                       ),
                       Form(
-                          key: _formKey,
+                          key: formKey,
                           child: Column(
                             children: <Widget>[
                               InputField(
@@ -95,14 +100,14 @@ class LoginWidget extends StatelessWidget {
                                 isEmail: true,
                                 required: true,
                                 keyboardType: TextInputType.emailAddress,
-                                controller: _emailController,
+                                controller: emailController,
                                 errorValidation: state is LoginError,
                               ),
                               InputField(
                                 width: 400,
                                 label: 'Password',
                                 required: true,
-                                controller: _passwordController,
+                                controller: passwordController,
                                 obscureText: true,
                                 errorValidation: state is LoginError,
                                 errorValidationText:
@@ -113,25 +118,25 @@ class LoginWidget extends StatelessWidget {
                                   isLoading: state is LoginLoading,
                                   onPressed: () async {
                                     Map<String, String> body = {
-                                      'email': _emailController.text,
-                                      'password': _passwordController.text,
+                                      'email': emailController.text,
+                                      'password': passwordController.text,
                                     };
 
-                                    if ((_emailController.text.isNotEmpty ||
-                                            _passwordController
+                                    if ((emailController.text.isNotEmpty ||
+                                            passwordController
                                                 .text.isNotEmpty) &&
                                         !EmailValidator(
-                                                value: _emailController.text)
+                                                value: emailController.text)
                                             .isValid()) {
                                       context
-                                          .read<LoginBloc>()
+                                          .read<AuthBloc>()
                                           .add(GetLoginEvent(loginBody: body));
                                       await Future.delayed(
                                           const Duration(seconds: 1));
                                     }
 
-                                    if (_formKey.currentState != null &&
-                                        _formKey.currentState!.validate()) {
+                                    if (formKey.currentState != null &&
+                                        formKey.currentState!.validate()) {
                                       return;
                                     }
                                   }),

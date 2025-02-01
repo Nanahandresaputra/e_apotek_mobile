@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   runApp(MultiBlocProvider(providers: [
-    BlocProvider<LoginBloc>(create: (context) => LoginBloc()),
+    BlocProvider<AuthBloc>(create: (context) => AuthBloc()),
     BlocProvider<ProductBloc>(create: (context) => ProductBloc()),
   ], child: const Login()));
 }

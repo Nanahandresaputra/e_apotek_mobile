@@ -10,25 +10,32 @@ part 'auth_state.dart';
 
 ApiUrl apiUrl = ApiUrl();
 
-class RegisterBloc extends Bloc<AuthEvent, AuthState> {
-  final Map<String, dynamic>? body;
-  RegisterBloc({this.body}) : super(RegisterInitial()) {
+class AuthBloc extends Bloc<AuthEvent, AuthState> {
+  AuthBloc() : super(RegisterInitial()) {
     on<GetRegisterEvent>((event, emit) async {
-      emit(RegisterLoading());
-      final response = await http.post(Uri.parse(apiUrl.products), body: body);
-      if (response.statusCode == 200) {
-        emit(RegisterSuccess(register: registerFromMap(response.body)));
-      } else {
+      try {
+        emit(RegisterLoading());
+        final response = await http.post(Uri.parse(apiUrl.register),
+            body: event.registerBody);
+        if (response.statusCode == 200) {
+          if (_resCode(response.body) == 200) {
+            emit(RegisterSuccess(register: registerFromMap(response.body)));
+          } else {
+            emit(RegisterError(
+                apiExeception: ApiExeception(
+                    code: response.statusCode, message: response.body)));
+          }
+        } else {
+          emit(RegisterError(
+              apiExeception: ApiExeception(
+                  code: response.statusCode, message: response.body)));
+        }
+      } catch (e) {
         emit(RegisterError(
-            apiExeception: ApiExeception(
-                code: response.statusCode, message: response.body)));
+            apiExeception: ApiExeception(code: 500, message: e.toString())));
       }
     });
-  }
-}
 
-class LoginBloc extends Bloc<AuthEvent, AuthState> {
-  LoginBloc() : super(LoginInitial()) {
     on<GetLoginEvent>((event, emit) async {
       try {
         emit(LoginLoading());
